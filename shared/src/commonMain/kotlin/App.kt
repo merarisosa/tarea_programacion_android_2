@@ -11,6 +11,7 @@ import androidx.compose.ui.Modifier
 import navigation.Screen
 import theme.SmartHomeTheme
 import ui.components.SmartTopBar
+import ui.screens.BoxViewScreen
 import ui.screens.DatePickerScreen
 import ui.screens.HomeScreen
 import ui.screens.ImageScreen
@@ -41,6 +42,7 @@ fun App() {
                     Screen.TIME_PICKER -> TimePickerScreen()
                     Screen.SLIDER -> SliderScreen()
                     Screen.IMAGE -> ImageScreen()
+                    Screen.BOX_VIEW -> BoxViewScreen()
                     else -> HomeScreen(onNavigate = { target -> currentScreen = target })
                 }
             }
