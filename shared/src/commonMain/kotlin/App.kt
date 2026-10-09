@@ -15,7 +15,9 @@ import ui.screens.BoxViewScreen
 import ui.screens.DatePickerScreen
 import ui.screens.HomeScreen
 import ui.screens.ImageScreen
+import ui.screens.ProgressIndicatorScreen
 import ui.screens.SliderScreen
+import ui.screens.SwitchScreen
 import ui.screens.TimePickerScreen
 
 @Composable
@@ -43,7 +45,8 @@ fun App() {
                     Screen.SLIDER -> SliderScreen()
                     Screen.IMAGE -> ImageScreen()
                     Screen.BOX_VIEW -> BoxViewScreen()
-                    else -> HomeScreen(onNavigate = { target -> currentScreen = target })
+                    Screen.SWITCH -> SwitchScreen()
+                    Screen.PROGRESS -> ProgressIndicatorScreen()
                 }
             }
         }
