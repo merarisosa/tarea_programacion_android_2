@@ -11,7 +11,9 @@ import androidx.compose.ui.Modifier
 import navigation.Screen
 import theme.SmartHomeTheme
 import ui.components.SmartTopBar
+import ui.screens.DatePickerScreen
 import ui.screens.HomeScreen
+import ui.screens.TimePickerScreen
 
 @Composable
 fun App() {
@@ -33,7 +35,9 @@ fun App() {
             ) {
                 when (currentScreen) {
                     Screen.HOME -> HomeScreen(onNavigate = { target -> currentScreen = target })
-                    else -> HomeScreen(onNavigate = { target -> currentScreen = target }) // Placeholder for Phase 2
+                    Screen.DATE_PICKER -> DatePickerScreen()
+                    Screen.TIME_PICKER -> TimePickerScreen()
+                    else -> HomeScreen(onNavigate = { target -> currentScreen = target })
                 }
             }
         }
