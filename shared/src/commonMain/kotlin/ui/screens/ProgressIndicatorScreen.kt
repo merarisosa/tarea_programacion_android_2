@@ -190,7 +190,10 @@ fun ProgressIndicatorScreen() {
                     horizontalArrangement = Arrangement.SpaceBetween,
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    Row(verticalAlignment = Alignment.CenterVertically) {
+                    Row(
+                        modifier = Modifier.weight(1f),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
                         Box(
                             modifier = Modifier
                                 .size(36.dp)
@@ -293,7 +296,7 @@ fun ProgressIndicatorScreen() {
                 Spacer(modifier = Modifier.height(10.dp))
 
                 Text(
-                    text = if (isSyncing) "Sincronizando lecturas de telemetría con el servidor central IoT..." else "Telemetría sincronizada correctamente.",
+                    text = if (isSyncing) "Sincronizando con la red eléctrica..." else "Telemetría sincronizada correctamente.",
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
