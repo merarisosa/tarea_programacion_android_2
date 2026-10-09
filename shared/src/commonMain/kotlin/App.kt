@@ -13,6 +13,8 @@ import theme.SmartHomeTheme
 import ui.components.SmartTopBar
 import ui.screens.DatePickerScreen
 import ui.screens.HomeScreen
+import ui.screens.ImageScreen
+import ui.screens.SliderScreen
 import ui.screens.TimePickerScreen
 
 @Composable
@@ -37,6 +39,8 @@ fun App() {
                     Screen.HOME -> HomeScreen(onNavigate = { target -> currentScreen = target })
                     Screen.DATE_PICKER -> DatePickerScreen()
                     Screen.TIME_PICKER -> TimePickerScreen()
+                    Screen.SLIDER -> SliderScreen()
+                    Screen.IMAGE -> ImageScreen()
                     else -> HomeScreen(onNavigate = { target -> currentScreen = target })
                 }
             }
