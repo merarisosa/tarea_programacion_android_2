@@ -24,6 +24,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowForward
 import androidx.compose.material.icons.filled.Bolt
+import androidx.compose.material.icons.filled.Collections
 import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Lock
@@ -99,6 +100,11 @@ fun HomeScreen(onNavigate: (Screen) -> Unit) {
             icon = Icons.Default.Bolt,
             accentColor = Color(0xFFEAB308), // Amarillo eléctrico
             isExtra = true
+        ),
+        ControlItem(
+            screen = Screen.IMAGE_CAROUSEL,
+            icon = Icons.Default.Collections,
+            accentColor = Color(0xFF14B8A6) // Teal / Verde azulado
         )
     )
 

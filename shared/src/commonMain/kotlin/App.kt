@@ -14,6 +14,7 @@ import ui.components.SmartTopBar
 import ui.screens.BoxViewScreen
 import ui.screens.DatePickerScreen
 import ui.screens.HomeScreen
+import ui.screens.ImageCarouselScreen
 import ui.screens.ImageScreen
 import ui.screens.ProgressIndicatorScreen
 import ui.screens.SliderScreen
@@ -47,6 +48,7 @@ fun App() {
                     Screen.BOX_VIEW -> BoxViewScreen()
                     Screen.SWITCH -> SwitchScreen()
                     Screen.PROGRESS -> ProgressIndicatorScreen()
+                    Screen.IMAGE_CAROUSEL -> ImageCarouselScreen()
                 }
             }
         }

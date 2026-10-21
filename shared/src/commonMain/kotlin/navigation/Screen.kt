@@ -62,5 +62,12 @@ enum class Screen(
         mauiEquivalent = "Xamarin/MAUI ProgressBar / ActivityIndicator",
         description = "Monitorea el consumo eléctrico en tiempo real y la meta.",
         badge = "Consumo"
+    ),
+    IMAGE_CAROUSEL(
+        title = "Ambientes del hogar",
+        controlName = "HorizontalPager",
+        mauiEquivalent = "Xamarin/MAUI CarouselView",
+        description = "Explora imágenes locales de los ambientes de una casa inteligente.",
+        badge = "Carrusel"
     )
 }
