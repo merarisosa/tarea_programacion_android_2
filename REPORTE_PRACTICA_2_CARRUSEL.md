@@ -7,7 +7,7 @@
 ---
 
 ## 1. Resumen Ejecutivo
-Se implementó con éxito el octavo módulo interactivo denominado **"Ambientes del hogar"** dentro de la aplicación domótica **SmartHome Hub**. Este componente demuestra el uso del control **`HorizontalPager`** de Compose Multiplatform como contraparte directa del control **`CarouselView`** de Xamarin / .NET MAUI, permitiendo explorar fotografías locales de alta definición mediante desplazamiento táctil horizontal, indicadores de página reactivos y controles de navegación asistida.
+Se implementó el octavo módulo interactivo denominado **"Ambientes del hogar"** dentro de la aplicación domótica **SmartHome Hub**. Este componente demuestra el uso del control **`HorizontalPager`** de Compose Multiplatform como contraparte directa del control **`CarouselView`** de Xamarin / .NET MAUI, permitiendo explorar fotografías locales de alta definición mediante desplazamiento táctil horizontal, indicadores de página reactivos y controles de navegación asistida.
 
 ---
 
@@ -15,23 +15,23 @@ Se implementó con éxito el octavo módulo interactivo denominado **"Ambientes 
 
 ### Archivos Modificados:
 1. **[`shared/src/commonMain/kotlin/navigation/Screen.kt`](file:///home/merari/Descargas/hw2/shared/src/commonMain/kotlin/navigation/Screen.kt)**:
-   - Se añadió la entrada enum `IMAGE_CAROUSEL` con metadatos académicos:
+   - Entrada enum `IMAGE_CAROUSEL` con metadatos académicos:
      - `title`: *"Ambientes del hogar"*
      - `controlName`: *"HorizontalPager"*
      - `mauiEquivalent`: *"Xamarin/MAUI CarouselView"*
      - `description`: *"Explora imágenes locales de los ambientes de una casa inteligente."*
      - `badge`: *"Carrusel"*
 2. **[`shared/src/commonMain/kotlin/App.kt`](file:///home/merari/Descargas/hw2/shared/src/commonMain/kotlin/App.kt)**:
-   - Se importó `ui.screens.ImageCarouselScreen`.
-   - Se integró `Screen.IMAGE_CAROUSEL -> ImageCarouselScreen()` en la rama reactiva del bloque `when (currentScreen)`.
-   - Se preservó la barra superior unificada (`SmartTopBar`) y el tema global sin duplicidades.
+   - Importación de `ui.screens.ImageCarouselScreen`.
+   - Conexión de `Screen.IMAGE_CAROUSEL -> ImageCarouselScreen()` en el `when (currentScreen)`.
+   - Reutilización estricta del `Scaffold` y `SmartTopBar` existentes sin duplicar barras de navegación.
 3. **[`shared/src/commonMain/kotlin/ui/screens/HomeScreen.kt`](file:///home/merari/Descargas/hw2/shared/src/commonMain/kotlin/ui/screens/HomeScreen.kt)**:
-   - Se incorporó el octavo `ControlItem` para `Screen.IMAGE_CAROUSEL` utilizando el icono `Icons.Default.Collections` y un acento verde azulado (`Color(0xFF14B8A6)`).
+   - Incorporación del 8vo `ControlItem` para `Screen.IMAGE_CAROUSEL` con icono `Icons.Default.Collections` y acento teal (`Color(0xFF14B8A6)`).
    - El contador dinámico superior refleja automáticamente **8 Módulos Activos**.
 
 ### Archivos Creados:
 1. **[`shared/src/commonMain/kotlin/ui/screens/ImageCarouselScreen.kt`](file:///home/merari/Descargas/hw2/shared/src/commonMain/kotlin/ui/screens/ImageCarouselScreen.kt)**:
-   - Pantalla completa del carrusel con `EquivalenceCard`, encabezado, visor con relación de aspecto 3:2, degradado de legibilidad, indicadores circulares activos/pulsables y botones anterior/siguiente.
+   - Pantalla completa del carrusel con `EquivalenceCard`, visor 3:2, degradado de legibilidad, indicadores circulares activos/pulsables y botones anterior/siguiente.
 
 ---
 
@@ -52,20 +52,24 @@ Las cinco imágenes fueron descargadas en formato JPEG real, con relación horiz
 ## 4. Gestión de Recursos Compartidos vs. Drawable Android
 
 De acuerdo con las directrices de la consigna académica:
-1. **Código Compartido (`commonMain`):**
-   - Las imágenes están alojadas en `shared/src/commonMain/resources/` y en `shared/src/commonMain/resources/drawable/`.
+1. **Código Compartido (`commonMain/resources/`):**
+   - Las imágenes están alojadas en la raíz de `shared/src/commonMain/resources/`.
    - Se cargan mediante la API compatible de Compose Multiplatform 1.5.11: `painterResource(ambiente.resourceName)`.
+   - **Ruta real consumida:** `painterResource("ambiente_sala.jpg")` busca el recurso directamente en la raíz del classpath generado por Gradle.
 2. **Referencia Académica a `Resources/drawable`:**
-   - Se incorporaron réplicas idénticas en el directorio Android nativo `shared/src/androidMain/res/drawable/`.
-   - Este directorio está vinculado formalmente en `shared/build.gradle.kts` mediante `sourceSets["main"].res.srcDirs("src/androidMain/res")`.
-   - Se explica que la duplicación obedece al cumplimiento de la consigna sin comprometer la independencia multiplataforma del módulo compartido.
+   - Se incorporaron copias idénticas en el directorio nativo `shared/src/androidMain/res/drawable/`.
+   - Este directorio está formalmente vinculado en `shared/build.gradle.kts` mediante:
+     ```kotlin
+     sourceSets["main"].res.srcDirs("src/androidMain/res")
+     ```
+   - Esta duplicación representa una adaptación académica para cumplir con el requisito de referencia a drawable de la consigna sin acoplar la UI compartida a `R.drawable`.
 
 ---
 
 ## 5. Arquitectura del Carrusel: HorizontalPager y Estado Reactivo
 
 * **Control Base:** `androidx.compose.foundation.pager.HorizontalPager`.
-* **Anotación de Compatibilidad:** `@OptIn(ExperimentalFoundationApi::class)` requerida en Compose 1.5.11.
+* **Anotación de Compatibilidad:** `@OptIn(ExperimentalFoundationApi::class)` requerida en Compose Multiplatform 1.5.11.
 * **Estado:** `val pagerState = rememberPagerState(initialPage = 0) { listaAmbientes.size }`.
 * **Fuente Única de Verdad:**
   - El contador dinámico `"X de 5"` lee directamente `pagerState.currentPage + 1`.
@@ -75,42 +79,71 @@ De acuerdo con las directrices de la consigna académica:
 
 ---
 
-## 6. Comandos Ejecutados y Resultados de Compilación
+## 6. Estado de Compilación y Ejecución por Plataforma
 
-1. **Compilación del Target de Escritorio:**
-   ```bash
-   ./gradlew :desktopApp:compileKotlinJvm
-   # Resultado: BUILD SUCCESSFUL en 3s
-   ```
-2. **Empaquetado de Binario Ejecutable (UberJar):**
-   ```bash
-   ./gradlew :desktopApp:packageUberJarForCurrentOS
-   # Resultado: BUILD SUCCESSFUL (Genera KotlinMultiplatformComposeDesktopApplication-linux-x64-1.0.0.jar)
-   ```
-3. **Ejecución y Verificación Visual:**
-   - Se ejecutó el binario en la sesión de escritorio X11/Wayland activa (`DISPLAY=:0`) utilizando el entorno Temurin JDK 17.
-   - La aplicación desplegó fluidamente el panel con los 8 módulos, la apertura de "Ambientes del hogar" y la navegación entre las 5 fotografías.
+Para mantener estricto rigor académico, se distingue de manera explícita y transparente el estado de cada plataforma:
+
+### A. Plataforma Android (`androidApp`):
+* **Compilación:** **COMPILADA EXITOSAMENTE**
+  - Android SDK instalado en espacio de usuario: `/home/merari/Android/Sdk` (API 34, Build-Tools 34.0.0, Platform-Tools 35.0.2).
+  - Tarea ejecutada: `./gradlew :androidApp:assembleDebug` (BUILD SUCCESSFUL).
+  - **APK Generado:** [`androidApp/build/outputs/apk/debug/androidApp-debug.apk`](file:///home/merari/Descargas/hw2/androidApp/build/outputs/apk/debug/androidApp-debug.apk) (17 MB).
+* **Ejecución y Verificación en Emulador:** **EJECUTADA Y VERIFICADA EN VIVO**
+  - **Dispositivo Virtual:** AVD `pixel34` (Google APIs Intel x86_64, Android 14 / API 34).
+  - **Aceleración por Hardware:** KVM activa (`/dev/kvm`), renderizado gráfico acelerado con SwiftShader/Vulkan.
+  - **Pruebas de Funcionalidad Superadas al 100%:**
+    1. Visualización correcta en el grid principal de 8 módulos con el badge "Carrusel" y el control `HorizontalPager`.
+    2. Carga y renderizado óptimo de las 5 fotografías locales (Sala, Cocina, Dormitorio, Estudio, Jardín).
+    3. Deslizamiento gestual horizontal (swipe) fluido y animaciones de transición.
+    4. Sincronización bidireccional de la fila de indicadores con cambio dinámico de tamaño (cápsula expandida activa).
+    5. Contador textual dinámico reactivo ("1 de 5" a "5 de 5").
+    6. Comportamiento en límites: botón *Anterior* deshabilitado en página 1; botón *Siguiente* deshabilitado en página 5.
+    7. Retorno al menú principal mediante el botón de retroceso de `SmartTopBar`.
+    8. **Verificación Offline:** Se deshabilitaron las interfaces Wi-Fi y datos móviles en el emulador (`svc wifi disable` y `svc data disable`). El carrusel continuó operando de forma 100% autónoma y sin dependencias de red, confirmando el empaquetado local de los recursos.
+
+### B. Plataforma Desktop (JVM - Linux):
+* **Compilación:** **COMPILADA EXITOSAMENTE**
+  - Tarea: `./gradlew :desktopApp:compileKotlinJvm` (BUILD SUCCESSFUL).
+  - Tarea: `./gradlew :desktopApp:packageUberJarForCurrentOS` (Generó binario `KotlinMultiplatformComposeDesktopApplication-linux-x64-1.0.0.jar`).
+* **Ejecución:** **EJECUTADA Y COMPROBADA EN VIVO**
+  - Se ejecutó el binario en la sesión gráfica activa (`DISPLAY=:0`) con JDK 17 Headful.
+  - Se verificó la carga de las 5 fotos locales, navegación táctil, swipe horizontal, sincronización de indicadores y retorno al inicio.
+
+### C. Plataforma iOS (`iosApp`):
+* **Compilación:** **NO SOPORTADA EN ESTE ENTORNO LINUX**
+  - El plugin de Kotlin/Native deshabilita automáticamente los targets iOS (`iosArm64`, `iosSimulatorArm64`, `iosX64`) en hosts Linux debido a la dependencia obligatoria del toolchain de Xcode y macOS SDKs.
 
 ---
 
-## 7. Catálogo de Evidencias Generadas
+## 7. Catálogo de Evidencias Disponibles
 
-Todas las capturas reales de ejecución están almacenadas en:
-📁 **[`/home/merari/Descargas/hw2/capturas_reporte_U2_carrusel/`](file:///home/merari/Descargas/hw2/capturas_reporte_U2_carrusel)**
+Las capturas de pantalla obtenidas en las sesiones de prueba se encuentran organizadas y diferenciadas por plataforma:
 
-* **`figura_01_inicio_modulo_carrusel.png`**: Vista general de la pantalla de inicio mostrando el banner y los módulos activos.
-* **`figura_02_carrusel_sala.png`**: Carrusel en la página 1 (Sala de Estar), botón Anterior deshabilitado.
-* **`figura_03_carrusel_cocina.png`**: Carrusel en la página 2 (Cocina Integral), indicador sincronizado.
-* **`figura_04_carrusel_dormitorio.png`**: Carrusel en la página 3 (Dormitorio Principal).
-* **`figura_05_carrusel_estudio.png`**: Carrusel en la página 4 (Estudio / Oficina).
-* **`figura_06_carrusel_jardin.png`**: Carrusel en la página 5 (Jardín Exterior), botón Siguiente deshabilitado.
-* **`figura_07_recursos_drawable.png`**: Estructura de archivos de los recursos empaquetados en `commonMain/resources` y `androidMain/res/drawable`.
-* **`figura_08_compilacion_exitosa.png`**: Terminal con el proceso de construcción exitoso en Gradle.
+### Evidencias Android (Nativas en Emulador Android 14 API 34):
+📁 **[`/home/merari/Descargas/hw2/capturas_reporte_U2_carrusel/android/`](file:///home/merari/Descargas/hw2/capturas_reporte_U2_carrusel/android/)**
+* **`figura_01_android_inicio.png`**: Pantalla inicial de SmartHome Hub mostrando la tarjeta de presentación y los primeros módulos.
+* **`figura_01_android_modulo_carrusel.png`**: Desplazamiento en el grid mostrando el 8vo módulo "Ambientes del hogar" con su badge y botón "Abrir".
+* **`figura_02_android_carrusel_sala.png`**: Página 1 ("1 de 5") - Sala de Estar, botón *Anterior* deshabilitado e indicador inicial expandido.
+* **`figura_03_android_carrusel_cocina.png`**: Página 2 ("2 de 5") - Cocina Integral tras presionar botón *Siguiente*.
+* **`figura_04_android_carrusel_dormitorio.png`**: Página 3 ("3 de 5") - Habitación tras gesto de swipe táctil horizontal.
+* **`figura_05_android_carrusel_estudio.png`**: Página 4 ("4 de 5") - Estudio / Oficina con degradado de texto y metadatos del ambiente.
+* **`figura_06_android_carrusel_jardin.png`**: Página 5 ("5 de 5") - Jardín / Terraza, botón *Siguiente* deshabilitado en el límite superior.
+* **`figura_07_android_regreso_inicio.png`**: Retorno exitoso a la pantalla Home tras pulsar la flecha de navegación de la barra superior.
+* **`figura_08_android_carrusel_offline.png`**: Ejecución en modo avión / sin conexión (Wi-Fi y datos desactivados), demostrando carga 100% local.
+
+### Evidencias Desktop (JVM Linux):
+📁 **[`/home/merari/Descargas/hw2/capturas_reporte_U2_carrusel/`](file:///home/merari/Descargas/hw2/capturas_reporte_U2_carrusel/)**
+* **`figura_01_inicio_modulo_carrusel.png`**: Grid de 8 módulos activos en ventana de escritorio.
+* **`figura_02_carrusel_sala.png`** a **`figura_06_carrusel_jardin.png`**: Secuencia completa de páginas en resolución de escritorio.
+* **`figura_07_recursos_drawable.png`**: Inspección de los archivos de recursos en consola.
+* **`figura_08_compilacion_exitosa.png`**: Registro terminal del build exitoso de Gradle.
 
 ---
 
-## 8. Notas sobre Entornos y Plataformas
-
-* **Escritorio (Linux JVM):** Compilado y ejecutado exitosamente con JDK 17 (Headful). Verificación visual completa.
-* **Android:** El código fuente en `androidApp` y `shared` está 100% alineado con Compose Multiplatform y AGP 8.0.2. En la máquina actual no se encuentra configurado el SDK local de Android (`ANDROID_HOME`), por lo que su compilación de APK se ejecutará directamente al abrir el proyecto en Android Studio.
-* **iOS:** Marcado como target deshabilitado por el plugin de Kotlin/Native en máquinas Linux (requiere Xcode en macOS).
+## 8. Verificación de Recursos y Limpieza de Redundancias
+1. **Recurso Real Consumido:**
+   - La función `painterResource("ambiente_*.jpg")` de Compose Multiplatform 1.5.11 carga directamente del classpath raíz de `shared/src/commonMain/resources/`.
+   - Las 5 imágenes redundantes que se habían colocado inicialmente en `shared/src/commonMain/resources/drawable/` fueron eliminadas tras comprobar que no eran requeridas por Compose, evitando duplicación innecesaria en el paquete compartido.
+2. **Adaptación Académica Android (`androidMain/res/drawable/`):**
+   - Se conservaron intactas las 5 imágenes en `shared/src/androidMain/res/drawable/`.
+   - Esto satisface la consigna académica respecto a "Resources/drawable" para el entorno Android compilado sin romper la portabilidad de `commonMain`.
