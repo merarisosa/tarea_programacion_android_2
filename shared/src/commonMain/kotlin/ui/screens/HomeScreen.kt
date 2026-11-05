@@ -30,6 +30,7 @@ import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material.icons.filled.Palette
 import androidx.compose.material.icons.filled.PlayArrow
+import androidx.compose.material.icons.filled.RateReview
 import androidx.compose.material.icons.filled.Schedule
 import androidx.compose.material.icons.filled.Tune
 import androidx.compose.material.icons.filled.Videocam
@@ -105,6 +106,11 @@ fun HomeScreen(onNavigate: (Screen) -> Unit) {
             screen = Screen.IMAGE_CAROUSEL,
             icon = Icons.Default.Collections,
             accentColor = Color(0xFF14B8A6) // Teal / Verde azulado
+        ),
+        ControlItem(
+            screen = Screen.SURVEYS,
+            icon = Icons.Default.RateReview,
+            accentColor = Color(0xFF6366F1) // Índigo moderno
         )
     )
 

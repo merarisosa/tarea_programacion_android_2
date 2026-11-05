@@ -18,6 +18,7 @@ import ui.screens.ImageCarouselScreen
 import ui.screens.ImageScreen
 import ui.screens.ProgressIndicatorScreen
 import ui.screens.SliderScreen
+import ui.screens.SurveyScreen
 import ui.screens.SwitchScreen
 import ui.screens.TimePickerScreen
 
@@ -49,6 +50,7 @@ fun App() {
                     Screen.SWITCH -> SwitchScreen()
                     Screen.PROGRESS -> ProgressIndicatorScreen()
                     Screen.IMAGE_CAROUSEL -> ImageCarouselScreen()
+                    Screen.SURVEYS -> SurveyScreen()
                 }
             }
         }

@@ -69,5 +69,12 @@ enum class Screen(
         mauiEquivalent = "Xamarin/MAUI CarouselView",
         description = "Explora imágenes locales de los ambientes de una casa inteligente.",
         badge = "Carrusel"
+    ),
+    SURVEYS(
+        title = "Encuestas y opiniones",
+        controlName = "Modal Dialog / Sheet",
+        mauiEquivalent = "Xamarin/MAUI Modal Page & ActionSheet",
+        description = "Registra encuestas y opiniones mediante diálogos y hojas modales.",
+        badge = "Modales"
     )
 }
